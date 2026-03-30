@@ -1,23 +1,29 @@
 'use client';
 import Image from "next/image";
-import Grid from "./grid";
-import StartPage from "./startPage";
+import Grid from "./grid/page";
+import StartPage from "./start/page";
 import {BrowserRouter, Routes, Route, useNavigate} from "react-router-dom";
+import Link from 'next/link'
 
 
 export default function Home() {
   return(
-    // <div>
-    //   <button>Hi!</h1>
-    // </div>
-    <BrowserRouter>
-      <Routes>
-        <Route  path = '/startPage' element={<StartPage/>}/>
-        <Route  path = '/grid' element={<Grid/>}/>
+    <div>
+      <button>Hi!</button>
+      <nav>
+        <Link href = "/start"> Start Page </Link>
+        <Link href = "/grid"> Grid </Link>
+      </nav>
 
-      </Routes>
+    </div>
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route  path = '/startPage' element={<StartPage/>}/>
+    //     <Route  path = '/grid' element={<Grid/>}/>
+
+    //   </Routes>
     
-    </BrowserRouter>
+    // </BrowserRouter>
     
 
   )
