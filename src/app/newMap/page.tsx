@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-export default function Home() {
+export default function NewMap() {
   // Sart page content here
   return (
     <main className="flex flex-col items-center h-screen w-screen" style={{ backgroundColor: "#8A7863" }}>
@@ -9,8 +9,7 @@ export default function Home() {
         <div className="flex flex-col items-center justify-center space-y-8 w-4/12 h-4/12 rounded-2xl" style={{ backgroundColor: "#AD987D" }}>
           <h1 className="text-4xl font-bold mb-4">Meristem</h1>
           <div className="flex flex-col space-y-4">
-            <Link href = "newMap/"><button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> New Map</button></Link>
-            <Link href = "loadMap/"><button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> Load Map</button></Link>
+            <Link href = "/.."><button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> End Play</button></Link>
           </div>
         </div>
       </div>
