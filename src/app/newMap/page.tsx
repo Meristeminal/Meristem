@@ -1,19 +1,18 @@
-import Link from 'next/link'
+// import grid from components
+import GridBoard from '../../Components/GridBoard';
 
 export default function NewMap() {
-  // Sart page content here
+  // New Map page content here
+
+    // from A to L
+    const rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J","K","L"];
+    // to ten
+    const cols = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+
   return (
-    <main className="flex flex-col items-center h-screen w-screen" style={{ backgroundColor: "#8A7863" }}>
-
-      <div className="flex items-center justify-center h-full w-full">
-        <div className="flex flex-col items-center justify-center space-y-8 w-4/12 h-4/12 rounded-2xl" style={{ backgroundColor: "#AD987D" }}>
-          <h1 className="text-4xl font-bold mb-4">Meristem</h1>
-          <div className="flex flex-col space-y-4">
-            <Link href = "/.."><button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"> End Play</button></Link>
-          </div>
-        </div>
-      </div>
-
+    <main className="flex flex-col items-center h-screen w-screen bg-[#8A7863]">
+      <GridBoard />
     </main>
   );
 }
