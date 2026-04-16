@@ -1,5 +1,7 @@
 // import grid from components
 import GridBoard from '../../Components/GridBoard';
+// import toolbar from components
+import ToolBar from '../../Components/ToolBar';
 
 export default function NewMap() {
   // New Map page content here
@@ -13,6 +15,7 @@ export default function NewMap() {
   return (
     <main className="flex flex-col items-center h-screen w-screen bg-[#8A7863]">
       <GridBoard />
+      <ToolBar />
     </main>
   );
 }
