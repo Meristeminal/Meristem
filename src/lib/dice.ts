@@ -1,3 +1,8 @@
+export interface DiceGroup {
+  numDice: number;
+  sides: number;
+}
+
 // Set the example dice groups here
 const DICE_GROUPS = [
   { numDice: 2, sides: 6 },
@@ -5,13 +10,15 @@ const DICE_GROUPS = [
 ];
 
 // Function to handle individual dice rolls
-function rollDie(sides) {
+export function rollDie(sides: number): number {
   return Math.ceil(Math.random() * sides);
 }
 
 // Output individual rolls on a new line
-function rollAll(groups) {
-  console.log("Rolling: " + groups.map(g => `${g.numDice}d${g.sides}`).join(" + "));
+export function rollAll(groups: DiceGroup[]) {
+  console.log(
+    "Rolling: " + groups.map((g) => `${g.numDice}d${g.sides}`).join(" + "),
+  );
   console.log("---");
 
   // Total Variable
@@ -28,9 +35,6 @@ function rollAll(groups) {
     grandTotal += sum;
     console.log(`${numDice}d${sides}: [${rolls.join(", ")}] = ${sum}`);
   }
-
-  console.log("---");
-  console.log(`Total: ${grandTotal}`);
 }
 
 rollAll(DICE_GROUPS);
