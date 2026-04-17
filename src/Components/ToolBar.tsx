@@ -11,7 +11,6 @@ const ToolBar: React.FC = () => {
       <div className="flex flex-col md:flex-row gap-8 items-start max-w-7xl mx-auto">
         
         {/* --- LEFT SECTION: Tabbed Asset Browser --- */}
-        {/* 1. Added border-collapse logic and forced w-min to hug the grid tightly */}
         <div className="w-min bg-[#9c9081] rounded overflow-hidden border-2 border-black flex-shrink-0">
           
           {/* White Tab Header */}
@@ -48,12 +47,10 @@ const ToolBar: React.FC = () => {
         </div>
 
         {/* --- RIGHT SECTION: Controls & Actions --- */}
-        {/* Using ml-auto pushes this section to the far right if desired, 
-            or remove it to keep it adjacent to the grid */}
         <div className="flex flex-col items-end gap-10 flex-grow ml-auto">
           
           {/* History Controls */}
-          <div className="flex gap-3">
+          <div className="flex space-x-14">
             <button className="w-12 h-12 rounded-full bg-[#2d2d2d] hover:bg-black text-white text-[10px] font-bold uppercase flex items-center justify-center transition-all active:scale-95 shadow-lg border border-black/20">
               Back
             </button>
@@ -62,12 +59,6 @@ const ToolBar: React.FC = () => {
             </button>
           </div>
 
-          {/* Shape Placeholder */}
-          <div className="mr-4 lg:mr-12">
-            <svg viewBox="0 0 100 100" className="w-28 h-28 fill-[#d1d1d1] drop-shadow-md">
-              <polygon points="50,5 91,25 99,69 69,99 21,95 1,51 25,11" />
-            </svg>
-          </div>
 
           {/* Action Buttons Stack */}
           <div className="flex flex-col gap-2 w-40">
