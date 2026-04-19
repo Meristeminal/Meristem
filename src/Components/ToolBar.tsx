@@ -1,10 +1,12 @@
 "use client";
 
 import React, { useState } from 'react';
+import DiceRoller from './DiceRoller';
 
 const ToolBar: React.FC = () => {
   const tabs = ['NPCS', 'Players', 'Objects', 'Music', 'Images', 'More'];
   const [activeTab, setActiveTab] = useState('NPCS');
+  const [diceOpen, setDiceOpen] = useState(false);
 
   return (
     <div className="bg-[#8e8271] p-4 font-sans select-none border-t-2 border-[#5a5043] w-full">
@@ -63,13 +65,27 @@ const ToolBar: React.FC = () => {
           {/* Action Buttons Stack */}
           <div className="flex flex-col gap-2 w-40">
             {['Select Folder', 'New', 'Save', 'Load'].map((label) => (
-              <button 
+              <button
                 key={label}
                 className="w-full px-4 py-2 rounded bg-[#2d2d2d] hover:bg-black text-white text-[11px] font-bold uppercase transition-colors shadow-md text-center border border-black/20"
               >
                 {label}
               </button>
             ))}
+            <div className="relative">
+              <button
+                onClick={() => setDiceOpen((isOpen) => !isOpen)}
+                className={`w-full px-4 py-2 rounded text-white text-[11px] font-bold uppercase transition-colors shadow-md text-center border border-black/20
+                  ${diceOpen ? 'bg-[#6d5dfc] hover:bg-[#8070ff]' : 'bg-[#2d2d2d] hover:bg-black'}`}
+              >
+                🎲 Dice
+              </button>
+              {diceOpen && (
+                <div className="absolute bottom-full right-0 mb-2 z-50">
+                  <DiceRoller />
+                </div>
+              )}
+            </div>
           </div>
 
         </div>
