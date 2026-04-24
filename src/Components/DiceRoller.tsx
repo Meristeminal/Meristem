@@ -5,14 +5,14 @@ import React, { useState } from 'react';
 /* Die Sides added 2 for coin flip and 100 for percentage */
 const PRESET_SIDES = [2, 4, 6, 8, 10, 12, 20, 100];
 
-/* interface for dice groups for rolling multiple */
+/** interface for dice groups for rolling multiple **/
 interface DiceGroup {
   id: number;
   count: number;
   sides: number;
 }
 
-/* interface to display result */
+/** interface to display result **/
 interface GroupResult {
   notation: string;
   rolls: number[];
@@ -22,17 +22,17 @@ interface GroupResult {
 /* dice group tracking */
 let groupId = 1;
 
-/* limit dice number */
+/** limit dice number **/
 function limitDice(val: number) {
   return Math.max(1, Math.min(20, val));
 }
 
-/* limit dice sides */
+/** limit dice sides **/
 function limitSide(val: number) {
   return Math.max(2, Math.min(100, val));
 }
 
-/* Pop-up UI grouping */
+/** Pop-up UI grouping **/
 /* use react component for tracking */
 const DiceRoller: React.FC = () => {
 
