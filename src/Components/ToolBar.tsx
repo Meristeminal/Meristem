@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import DiceRoller from './DiceRoller';
-import {Save} from '../lib/storage'
+import {LoadToolbar, Save} from '../lib/storage'
 const ToolBar: React.FC = () => {
   const tabs = ['NPCS', 'Players', 'Objects', 'Music', 'Images', 'More'];
-  const [activeTab, setActiveTab] = useState('NPCS');
+  const [activeTab, setActiveTab] = LoadToolbar('activeTab') !== 'undefined' ? useState(LoadToolbar('activeTab')) : useState('NPCS');
     const [diceOpen, setDiceOpen] = useState(false);
   
     return (
@@ -20,7 +20,8 @@ const ToolBar: React.FC = () => {
             {tabs.map((tab) => (
               <button
                 key={tab}
-                onClick={() => setActiveTab(tab)}
+                onClick={() => {setActiveTab(tab),  Save('activeTab', tab)}
+}
                 className={`flex-1 px-3 py-2 text-[10px] font-bold transition-colors whitespace-nowrap
                   ${
                     activeTab === tab
@@ -67,7 +68,6 @@ const ToolBar: React.FC = () => {
             {['Select Folder', 'New', 'Save', 'Load'].map((label) => (
               <button
                 
-                onClick={() => Save()}
 
                 key={label}
                 className="w-full px-4 py-2 rounded bg-[#2d2d2d] hover:bg-black text-white text-[11px] font-bold uppercase transition-colors shadow-md text-center border border-black/20"

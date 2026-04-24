@@ -1,30 +1,31 @@
-"use client";
+'use client';
 import { json } from "stream/consumers";
-import {useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import ToolBar from "@/Components/ToolBar";
 
+
 export default function Load(){
-    if(localStorage){
+    if(window !== undefined){
         const savedDice = localStorage.getItem('dice')
         console.log(savedDice)
     }
 }
 
-export function Save(){
-    const gameData = useEffect (() => {
-    if(localStorage){
-        const savedToolbar = localStorage.setItem('toolbar', JSON.stringify(toolbar))
-        console.log(savedToolbar)
+export function Save(key : string, value : string){
+    
+    console.log('value ' + value)
+    if(window !== undefined){
+        const savedToolbar = localStorage.setItem(key, JSON.stringify(value))
+        console.log('activeTab:' + value)
     }
     else{
         console.log("Local Storage unavailable.")
     }
-})
 }
 export function LoadToolbar(key : string){
         console.log('attempted LoadToolbar')
 
-    if(localStorage){
+    if(window !== undefined){
         const loadedToolbar = localStorage.getItem(key)
 
         if(loadedToolbar){
