@@ -2,13 +2,13 @@
 
 import React, { useState } from 'react';
 import DiceRoller from './DiceRoller';
-
+import {Save} from '../lib/storage'
 const ToolBar: React.FC = () => {
   const tabs = ['NPCS', 'Players', 'Objects', 'Music', 'Images', 'More'];
   const [activeTab, setActiveTab] = useState('NPCS');
     const [diceOpen, setDiceOpen] = useState(false);
-
-  return (
+  
+    return (
     <div className="bg-[#8e8271] p-4 font-sans select-none border-t-2 border-[#5a5043] w-full">
       <div className="flex flex-col md:flex-row gap-8 items-start max-w-7xl mx-auto">
         
@@ -65,7 +65,10 @@ const ToolBar: React.FC = () => {
           {/* Action Buttons Stack */}
           <div className="flex flex-col gap-2 w-40">
             {['Select Folder', 'New', 'Save', 'Load'].map((label) => (
-              <button 
+              <button
+                
+                onClick={() => Save()}
+
                 key={label}
                 className="w-full px-4 py-2 rounded bg-[#2d2d2d] hover:bg-black text-white text-[11px] font-bold uppercase transition-colors shadow-md text-center border border-black/20"
               >
