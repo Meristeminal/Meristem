@@ -33,7 +33,7 @@ function limitSide(val: number) {
 }
 
 /** Pop-up UI grouping **/
-/* use react component for tracking */
+/**  use react component for tracking **/
 const DiceRoller: React.FC = () => {
 
   /* groups is a list of dice groups, defaults group 1 to one 6 sided die  */
@@ -46,17 +46,17 @@ const DiceRoller: React.FC = () => {
     setGroups((prevGroups) => prevGroups.map((diceGroup) => (diceGroup.id === id ? { ...diceGroup, ...patch } : diceGroup)));
   }
 
-  /* button function to add a group */
+  /** button function to add a group **/
   function addGroup() {
     setGroups((prevGroups) => [...prevGroups, { id: groupId++, count: 1, sides: 6 }]);
   }
 
-  /* button function to remove group */
+  /** button function to remove group **/
   function removeGroup(id: number) {
     setGroups((prevGroups) => prevGroups.filter((diceGroup) => diceGroup.id !== id));
   }
 
-  /* function to roll all dice for button */
+  /** function to roll all dice for button **/
   function roll() {
     const rolled = groups.map((diceGroup) => {
       const rolls = Array.from({ length: diceGroup.count }, () =>
