@@ -41,6 +41,7 @@ const DiceRoller: React.FC = () => {
   /* results keep list of past results */
   const [results, setResults] = useState<GroupResult[] | null>(null);
 
+  /** Updates groups on change **/
   function updateGroup(id: number, patch: Partial<DiceGroup>) {
     setGroups((prevGroups) => prevGroups.map((diceGroup) => (diceGroup.id === id ? { ...diceGroup, ...patch } : diceGroup)));
   }
@@ -69,6 +70,7 @@ const DiceRoller: React.FC = () => {
     });
     setResults(rolled);
   }
+  
   /* track running total */
   const total = results?.reduce((runningTotal, groupResult) => runningTotal + groupResult.subtotal, 0) ?? 0;
   /* Create notation for roll function */
