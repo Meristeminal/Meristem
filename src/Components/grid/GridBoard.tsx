@@ -2,6 +2,7 @@
 
 import React from "react";
 import GridHeader from "./GridHeader";
+import { spacingCalc } from "@/lib/css";
 
 /*
   GridBoard Component
@@ -92,16 +93,15 @@ const GridBoard: React.FC<GridBoardProps> = ({
                   key={coord}
                   style={{
                     // Tailwind does not support dynamic class generation
-                    height: `calc(var(--spacing) * ${cellHeight})`,
-                    width: `calc(var(--spacing) * ${cellWidth})`,
+                    height: spacingCalc(cellHeight),
+                    width: spacingCalc(cellWidth),
                   }}
                   className={`border border-black hover:bg-gray-400 cursor-pointer transition-colors`}
                   onClick={() =>
-                    onCellClick ? onCellClick?.([row[0], col[0]]) : void 0
-                  }
+                    onCellClick ? onCellClick?.([row[0], col[0]]) : void 0}
                 />
               );
-            }),
+            })
           )}
         </div>
       </div>

@@ -56,8 +56,8 @@ const DiceRoller: React.FC<DiceRollerProps> = ({
   function updateGroup(id: number, patch: Partial<DiceGroup>) {
     setGroups((prevGroups) =>
       prevGroups.map((diceGroup) =>
-        diceGroup.id === id ? { ...diceGroup, ...patch } : diceGroup,
-      ),
+        diceGroup.id === id ? { ...diceGroup, ...patch } : diceGroup
+      )
     );
   }
 
@@ -78,7 +78,7 @@ const DiceRoller: React.FC<DiceRollerProps> = ({
   /** Button function to remove group **/
   function removeGroup(id: number) {
     setGroups((prevGroups) =>
-      prevGroups.filter((diceGroup) => diceGroup.id !== id),
+      prevGroups.filter((diceGroup) => diceGroup.id !== id)
     );
   }
 
@@ -102,11 +102,10 @@ const DiceRoller: React.FC<DiceRollerProps> = ({
   }
 
   /* Track running total */
-  const total =
-    results?.reduce(
-      (runningTotal, groupResult) => runningTotal + groupResult.subtotal,
-      0,
-    ) ?? 0;
+  const total = results?.reduce(
+    (runningTotal, groupResult) => runningTotal + groupResult.subtotal,
+    0,
+  ) ?? 0;
   /* Create notation for roll function */
   const notation = groups
     .map((diceGroup) => `${diceGroup.count}d${diceGroup.sides}`)
@@ -144,8 +143,7 @@ const DiceRoller: React.FC<DiceRollerProps> = ({
                 onClick={() =>
                   updateGroup(diceGroup.id, {
                     count: limitDice(diceGroup.count - 1),
-                  })
-                }
+                  })}
                 className="w-7 h-7 rounded bg-[#2d2d2d] hover:bg-black text-white font-bold text-lg leading-none flex items-center justify-center active:scale-95 border border-black/20"
               >
                 −
@@ -157,8 +155,7 @@ const DiceRoller: React.FC<DiceRollerProps> = ({
                 onClick={() =>
                   updateGroup(diceGroup.id, {
                     count: limitDice(diceGroup.count + 1),
-                  })
-                }
+                  })}
                 className="w-7 h-7 rounded bg-[#2d2d2d] hover:bg-black text-white font-bold text-lg leading-none flex items-center justify-center active:scale-95 border border-black/20"
               >
                 +
@@ -176,8 +173,7 @@ const DiceRoller: React.FC<DiceRollerProps> = ({
                 onClick={() =>
                   updateGroup(diceGroup.id, {
                     sides: limitSide(diceGroup.sides - 1),
-                  })
-                }
+                  })}
                 className="w-7 h-7 rounded bg-[#2d2d2d] hover:bg-black text-white font-bold text-lg leading-none flex items-center justify-center active:scale-95 border border-black/20"
               >
                 −
@@ -189,8 +185,7 @@ const DiceRoller: React.FC<DiceRollerProps> = ({
                 onClick={() =>
                   updateGroup(diceGroup.id, {
                     sides: limitSide(diceGroup.sides + 1),
-                  })
-                }
+                  })}
                 className="w-7 h-7 rounded bg-[#2d2d2d] hover:bg-black text-white font-bold text-lg leading-none flex items-center justify-center active:scale-95 border border-black/20"
               >
                 +
@@ -206,10 +201,10 @@ const DiceRoller: React.FC<DiceRollerProps> = ({
                 onClick={() => updateGroup(diceGroup.id, { sides: presetSide })}
                 className={`px-2 py-1 rounded text-[10px] font-bold uppercase transition-colors active:scale-95
                   ${
-                    diceGroup.sides === presetSide
-                      ? "bg-[#6d5dfc] text-white"
-                      : "bg-[#2d2d2d] hover:bg-black text-white border border-black/20"
-                  }`}
+                  diceGroup.sides === presetSide
+                    ? "bg-[#6d5dfc] text-white"
+                    : "bg-[#2d2d2d] hover:bg-black text-white border border-black/20"
+                }`}
               >
                 {presetSide}
               </button>
