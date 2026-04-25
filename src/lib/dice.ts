@@ -1,4 +1,18 @@
+/** Interface for dice groups for rolling multiple **/
 export interface DiceGroup {
+  id: number;
+  count: number;
+  sides: number;
+}
+
+/** Interface to display result **/
+export interface DiceGroupResult {
+  notation: string;
+  rolls: number[];
+  subtotal: number;
+}
+
+export interface OldDiceGroup {
   numDice: number;
   sides: number;
 }
@@ -15,7 +29,7 @@ export function rollDie(sides: number): number {
 }
 
 // Output individual rolls on a new line
-export function rollAll(groups: DiceGroup[]) {
+export function rollAll(groups: OldDiceGroup[]) {
   console.log(
     "Rolling: " + groups.map((g) => `${g.numDice}d${g.sides}`).join(" + "),
   );
@@ -36,5 +50,3 @@ export function rollAll(groups: DiceGroup[]) {
     console.log(`${numDice}d${sides}: [${rolls.join(", ")}] = ${sum}`);
   }
 }
-
-rollAll(DICE_GROUPS);

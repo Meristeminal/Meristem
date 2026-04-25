@@ -1,7 +1,6 @@
-"use client";
 import Link from "next/link";
-import { LoadToolbar } from "../lib/storage";
-export default function Home() {
+
+export default function LoadMap() {
   // Sart page content here
   return (
     <main
@@ -15,14 +14,9 @@ export default function Home() {
         >
           <h1 className="text-4xl font-bold mb-4">Meristem</h1>
           <div className="flex flex-col space-y-4">
-            <Link href="session/">
+            <Link href="/..">
               <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                New Session
-              </button>
-            </Link>
-            <Link href="loadSession/">
-              <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Load Session
+                Back
               </button>
             </Link>
           </div>
