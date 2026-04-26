@@ -13,14 +13,14 @@ export async function getAsset(
 }
 
 export async function postAsset(
-  base_uri: string,
+  baseUri: string,
   userId: string,
   sessionId: string,
   assetName: string,
   asset: any,
 ): Promise<void> {
   await fetch(
-    `${base_uri}/api/session/asset?user_id=${userId}&session_id=${sessionId}&asset=${assetName}`,
+    `${baseUri}/api/session/asset?user_id=${userId}&session_id=${sessionId}&asset=${assetName}`,
     { method: "POST", body: asset },
   );
 }
