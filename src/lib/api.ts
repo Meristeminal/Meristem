@@ -1,0 +1,26 @@
+export async function getAsset(
+  base_uri: string,
+  userId: string,
+  sessionId: string,
+  assetName: string,
+): Promise<Blob> {
+  let res = await fetch(
+    `${base_uri}/api/session/asset?user_id=${userId}&session_id=${sessionId}&asset=${assetName}`,
+    { method: "GET" },
+  );
+
+  return res.blob();
+}
+
+export async function postAsset(
+  base_uri: string,
+  userId: string,
+  sessionId: string,
+  assetName: string,
+  asset: any,
+): Promise<void> {
+  await fetch(
+    `${base_uri}/api/session/asset?user_id=${userId}&session_id=${sessionId}&asset=${assetName}`,
+    { method: "POST", body: asset },
+  );
+}

@@ -1,3 +1,4 @@
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { DiceGroup, DiceGroupResult } from "./dice";
 import { Item, MusicItem, NpcItem, ObjectItem, PlayerItem } from "./item";
 
@@ -31,13 +32,17 @@ export class SessionCatolog {
 
 /** Represents the state of a Meristem Session **/
 export class Session {
+  public id: string;
+
   constructor(
-    public id: string,
+    public name: string,
     public dice: DiceState,
     public grid: GridState,
     public items: SessionCatolog,
     public toolbarTabSelected: ToolBarTab,
-  ) {}
+  ) {
+    this.id = name.replaceAll(" ", "_").toLowerCase();
+  }
 }
 
 export enum ToolBarTab {
@@ -47,4 +52,38 @@ export enum ToolBarTab {
   Music = "Music",
   Images = "Images",
   More = "More",
+}
+
+export function saveAsset(
+  userId: string,
+  sessionId: string,
+  assetName: string,
+  data: Buffer | string,
+): void {
+  // This is not great, as a database should be used, but this works for the demo
+  // TODO: Make async
+  const assetsPath = getAssetsPath(userId, sessionId);
+  if (!existsSync(assetsPath)) {
+    mkdirSync(assetsPath, { recursive: true });
+  }
+
+  writeFileSync(getAssetPath(assetsPath, assetName), data);
+}
+
+export function loadAsset(
+  userId: string,
+  sessionId: string,
+  assetName: string,
+): Buffer {
+  return readFileSync(
+    getAssetPath(getAssetsPath(userId, sessionId), assetName),
+  );
+}
+
+function getAssetsPath(userId: string, sessionId: string): string {
+  return `./users/${userId}/${sessionId}/assets/`;
+}
+
+function getAssetPath(assetsPath: string, assetName: string): string {
+  return `${assetsPath}/${assetName}`;
 }
