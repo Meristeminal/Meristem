@@ -1,11 +1,11 @@
 export async function getAsset(
-  base_uri: string,
+  baseUri: string,
   userId: string,
   sessionId: string,
   assetName: string,
 ): Promise<Blob> {
   let res = await fetch(
-    `${base_uri}/api/session/asset?user_id=${userId}&session_id=${sessionId}&asset=${assetName}`,
+    `${baseUri}/api/session/asset?user_id=${userId}&session_id=${sessionId}&asset=${assetName}`,
     { method: "GET" },
   );
 
