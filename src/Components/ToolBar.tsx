@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import DiceRoller, { DiceRollerProps } from "./DiceRoller";
 import { LoadToolbar, Save } from "../lib/storage";
 import { ToolBarTab } from "@/lib/session";
+import Link from 'next/link';
 
 export interface ToolBarProps {
   // Idk if this is good practice
@@ -89,9 +90,11 @@ const ToolBar: React.FC<ToolBarProps> = ({
         <div className="flex flex-col items-end gap-10 flex-grow ml-auto">
           {/* History Controls */}
           <div className="flex space-x-14">
+            <Link href = "../">
             <button className="w-12 h-12 rounded-full bg-[#2d2d2d] hover:bg-black text-white text-[10px] font-bold uppercase flex items-center justify-center transition-all active:scale-95 shadow-lg border border-black/20">
               Back
             </button>
+            </Link>
             <button className="w-12 h-12 rounded-full bg-[#2d2d2d] hover:bg-black text-white text-[10px] font-bold uppercase flex items-center justify-center transition-all active:scale-95 shadow-lg border border-black/20">
               Next
             </button>
