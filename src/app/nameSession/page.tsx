@@ -1,5 +1,5 @@
 import Link from "next/link";
-
+import {Session} from "../../lib/session"
 export default function NameSession() {
   // Sart page content here
   return (
@@ -18,7 +18,7 @@ export default function NameSession() {
             <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Create Session
             </button>
-            <Link href="session/">
+            <Link href="session?">
               <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Start Game
               </button>
@@ -29,3 +29,13 @@ export default function NameSession() {
     </main>
   );
 }
+// Trying to make a new session with a specific ID
+// export function SaveID{
+//   x : Session ={}
+//    {     public name: string,
+//       public dice: DiceState,
+//       public grid: GridState,
+//       public items: SessionCatolog,
+//       public toolbarTabSelected: ToolBarTab,}
+// }
+

@@ -42,7 +42,13 @@ export class Session {
     public toolbarTabSelected: ToolBarTab,
   ) {
     this.id = name.replaceAll(" ", "_").toLowerCase();
+    console.log("ID created is " + this.id);
+
   }
+  //  getID(){
+  //   return this.id;
+  // }
+
 }
 
 export enum ToolBarTab {

@@ -12,8 +12,10 @@ import GridBoard from "../../Components/grid/GridBoard";
 import ToolBar from "../../Components/ToolBar";
 import { DiceRollerProps } from "@/Components/DiceRoller";
 import { useEffect, useState } from "react";
+import { InputType } from "zlib";
 
 export default function SessionPage() {
+  console.log("SessionPage was called!");
   // New Map page content here
 
   // from A to L
@@ -21,10 +23,12 @@ export default function SessionPage() {
 
   // to ten
   const cols = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-  let sessionId = "test_session";
-
+  
+  let html = (document.getElementById('sessionID') as HTMLInputElement);//"test_session";
+  let sessionId = html.value;
+  // let sessionId = "test_session"
   const defaultSession = () =>
+
     new Session(
       sessionId,
       new DiceState(),
@@ -32,6 +36,7 @@ export default function SessionPage() {
       new SessionCatolog(),
       ToolBarTab.NPCs,
     );
+
 
   const [session, setSession]: [Session, any] = useState(() => {
     if (typeof window === "undefined") {
@@ -42,6 +47,7 @@ export default function SessionPage() {
 
     if (json === null) {
       const ses = defaultSession();
+      
       // TODO: Check if this is even necessary
       window.localStorage.setItem(
         `meristem:session:${ses.id}`,
@@ -63,6 +69,8 @@ export default function SessionPage() {
     const json = JSON.stringify(session);
     window.localStorage.setItem(`meristem:session:${session.id}`, json);
     setSession(session);
+    console.log("ID " + session.id);
+
   }
 
   const { dice } = session;
