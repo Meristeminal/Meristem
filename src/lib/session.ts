@@ -57,7 +57,3 @@ export enum ToolBarTab {
   Images = "Images",
   More = "More",
 }
-
-
-
-

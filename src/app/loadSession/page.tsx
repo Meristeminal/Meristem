@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Session from "../lib/session"
 
 export default function LoadMap() {
   // Sart page content here
