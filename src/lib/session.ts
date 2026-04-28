@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { DiceGroup, DiceGroupResult } from "./dice";
 import { Item, MusicItem, NpcItem, ObjectItem, PlayerItem } from "./item";
+import { getAsset, postAsset } from "./api"
 
 /** Represents the state of the die **/
 export class DiceState {
@@ -45,9 +46,6 @@ export class Session {
     console.log("ID created is " + this.id);
 
   }
-  //  getID(){
-  //   return this.id;
-  // }
 
 }
 
@@ -59,5 +57,7 @@ export enum ToolBarTab {
   Images = "Images",
   More = "More",
 }
+
+
 
 

@@ -58,6 +58,7 @@ const ToolBar: React.FC<ToolBarProps> = ({
                 key={tab}
                 onClick={() => {
                   setActiveTab(tab);
+                  // saveAsset("hi", "sessionID", "assetName", "Let's hope this works!");
                 }}
                 className={`flex-1 px-3 py-2 text-[10px] font-bold transition-colors whitespace-nowrap
                   ${
