@@ -15,19 +15,37 @@ export default function Home() {
         >
           <h1 className="text-4xl font-bold mb-4">Meristem</h1>
           <div className="flex flex-col space-y-4">
-            <Link href="nameSession/">
-              <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                New Session
+            <input id = "userID" placeholder=" username:" className="hover: bg-blue=700" style = {{backgroundColor: "#8A7863", color: "white"}}></input>
+            <div>
+              <button onClick = {() => saveUserID("nameSession/")} className="flex flex-col items-center bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-3">
+              New Session  
               </button>
-            </Link>
-            <Link href="loadSession/">
-              <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Load Session
+             
+              <button onClick = {() => saveUserID("loadSession/")} className="flex flex-col items-center bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-3">
+              Load Session
               </button>
-            </Link>
+              
+            </div>
           </div>
         </div>
       </div>
     </main>
   );
+}
+
+
+function saveUserID(destination : string){
+  let userBox = document.getElementById("userID") as HTMLInputElement
+  if(userBox.value == ""){
+  }
+  else{
+      window.location.href = destination
+  }
+  let userID = userBox.value
+
+  if(localStorage){
+    localStorage.setItem("userID" , userID)
+    console.log("We just set user ID to : " + userID)
+  }
+  
 }

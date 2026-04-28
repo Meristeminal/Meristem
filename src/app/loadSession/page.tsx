@@ -14,10 +14,8 @@ export default function LoadMap() {
         >
           <h1 className="text-4xl font-bold mb-4">Meristem</h1>
           <div className="flex flex-col space-y-4">
-            <Link href="/..">
-              <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Back
-              </button>
+            <Link href="/.." className="flex flex-col items-center bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+              Back
             </Link>
           </div>
         </div>

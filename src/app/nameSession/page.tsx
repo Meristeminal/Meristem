@@ -14,14 +14,9 @@ export default function NameSession() {
         >
           <h1 className="text-4xl font-bold mb-4">Meristem</h1>
           <div className="flex flex-col space-y-4">
-            <input id = "sessionID" placeholder="Name your session!"></input>
-            <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Create Session
-            </button>
-                      <Link href="session/" >
-              <button className="bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <input id = "sessionID" placeholder=" Session name:" style = {{backgroundColor: "#8A7863", color: "white"}}></input>
+            <Link href="session/" className="flex flex-col items-center bg-black hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 Start Game
-              </button>
             </Link>
           
           </div>
