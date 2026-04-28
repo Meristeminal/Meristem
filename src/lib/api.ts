@@ -57,8 +57,10 @@ export async function listSessions(
   baseUri: string,
   userId: string,
 ): SessionInfo[] {
-  return await fetch(
+  let res = await fetch(
     `${baseUri}/api/session/asset?user_id=${userId}&session_id=${session.id}`,
     { method: "POST", body: JSON.stringify(session) },
   );
+
+  return;
 }
