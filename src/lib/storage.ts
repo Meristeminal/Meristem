@@ -1,39 +1,100 @@
-"use client";
-import { json } from "stream/consumers";
-import { useEffect, useState } from "react";
-import ToolBar from "@/Components/ToolBar";
+import {
+  existsSync,
+  mkdirSync,
+  readdir,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from "node:fs";
+import { Session, SessionInfo } from "./session";
 
-export default function Load() {
-  if (window !== undefined) {
-    const savedDice = localStorage.getItem("dice");
-    console.log(savedDice);
-  }
+export function saveSessionAsset(
+  userId: string,
+  sessionId: string,
+  assetName: string,
+  data: Buffer | string,
+): void {
+  // This is not great, as a database should be used, but this works for the demo
+  // TODO: Make async
+  const assetsPath = getSessionAssetsPath(getSessionPath(userId, sessionId));
+
+  ensureDir(assetsPath);
+
+  writeFileSync(getAssetPath(assetsPath, assetName), data);
 }
 
-export function Save(key: string, value: string) {
-  console.log("value " + value);
-  if (window !== undefined) {
-    const savedToolbar = localStorage.setItem(key, JSON.stringify(value));
-    console.log("activeTab:" + value);
-  } else {
-    console.log("Local Storage unavailable.");
-  }
+export function loadSessionAsset(
+  userId: string,
+  sessionId: string,
+  assetName: string,
+): Buffer {
+  return readFileSync(
+    getAssetPath(
+      getSessionAssetsPath(getSessionPath(userId, sessionId)),
+      assetName,
+    ),
+  );
 }
 
-export function LoadToolbar(key: string) {
-  console.log("attempted LoadToolbar");
+export function loadSessionData(userId: string, sessionId: string): Session {
+  const json = loadRawSessionData(userId, sessionId);
 
-  if (window !== undefined) {
-    const loadedToolbar = localStorage.getItem(key);
+  return Session.fromJSON(JSON.parse(json));
+}
 
-    if (loadedToolbar) {
-      console.log("Toolbar loaded:" + JSON.parse(loadedToolbar));
-      return JSON.parse(loadedToolbar);
-    } else {
-      console.log("Couldn't find what we looked for" + loadedToolbar);
-    }
-  } else {
-    console.log("Local Storage unavailable.");
-    return "undefined";
+export function loadRawSessionData(userId: string, sessionId: string): string {
+  return readFileSync(getSessionDataPath(getSessionPath(userId, sessionId)), {
+    encoding: "utf8",
+  });
+}
+
+export function saveSessionData(
+  userId: string,
+  sessionId: string,
+  session: Session,
+): void {
+  // This is not great, as a database should be used, but this works for the demo
+  // TODO: Make async
+  const sessionPath = getSessionPath(userId, sessionId);
+
+  ensureDir(sessionPath);
+
+  writeFileSync(sessionPath, JSON.stringify(session));
+}
+
+function ensureDir(path: string): void {
+  if (existsSync(path)) {
+    return;
   }
+  mkdirSync(path, { recursive: true });
+}
+
+export function listSession(userId: string): SessionInfo[] {
+  const list = readdirSync(getSessionsPath(userId));
+
+  return list.map((id) => loadSessionData(userId, id).getInfo());
+}
+
+function getSessionAssetsPath(sessionPath: string): string {
+  return `${sessionPath}/assets/`;
+}
+
+function getAssetPath(assetsPath: string, assetName: string): string {
+  return `${assetsPath}/${assetName}`;
+}
+
+function getUserPath(userId: string): string {
+  return `./users/${userId}`;
+}
+
+function getSessionsPath(userId: string): string {
+  return `${getUserPath(userId)}/sessions`;
+}
+
+function getSessionPath(userId: string, sessionId: string): string {
+  return `${getSessionsPath(userId)}/${sessionId}`;
+}
+
+function getSessionDataPath(sessionPath: string): string {
+  return `${sessionPath}/session.json`;
 }

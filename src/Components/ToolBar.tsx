@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import DiceRoller, { DiceRollerProps } from "./DiceRoller";
-import { LoadToolbar, Save } from "../lib/storage";
 import { ToolBarTab } from "@/lib/session";
 
 export interface ToolBarProps {
@@ -60,10 +59,10 @@ const ToolBar: React.FC<ToolBarProps> = ({
                 }}
                 className={`flex-1 px-3 py-2 text-[10px] font-bold transition-colors whitespace-nowrap
                   ${
-                  activeTab === tab
-                    ? "text-[#6d5dfc] border-b-4 border-[#6d5dfc]"
-                    : "text-gray-500 hover:text-gray-800"
-                }`}
+                    activeTab === tab
+                      ? "text-[#6d5dfc] border-b-4 border-[#6d5dfc]"
+                      : "text-gray-500 hover:text-gray-800"
+                  }`}
               >
                 {tab}
               </button>
@@ -112,10 +111,10 @@ const ToolBar: React.FC<ToolBarProps> = ({
                 onClick={() => setDiceOpen((isOpen) => !isOpen)}
                 className={`w-full px-4 py-2 rounded text-white text-[11px] font-bold uppercase transition-colors shadow-md text-center border border-black/20
                   ${
-                  diceOpen
-                    ? "bg-[#6d5dfc] hover:bg-[#8070ff]"
-                    : "bg-[#2d2d2d] hover:bg-black"
-                }`}
+                    diceOpen
+                      ? "bg-[#6d5dfc] hover:bg-[#8070ff]"
+                      : "bg-[#2d2d2d] hover:bg-black"
+                  }`}
               >
                 🎲 Dice
               </button>
