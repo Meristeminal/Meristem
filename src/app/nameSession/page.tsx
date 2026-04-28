@@ -1,7 +1,12 @@
 import Link from "next/link";
 import {Session} from "../../lib/session"
 export default function NameSession() {
+let s1 : SessionInfo = { id : "1", name : "Session1"}
+let s2 : SessionInfo = {id: "2", name:   "Session2"}
+let s3 : SessionInfo = {id: "3", name:   "Session3"}
+let s4 : SessionInfo = {id: "4", name:   "Session4"}
   const SessionList : SessionInfo = [s1, s2, s3, s4]
+  
 
   // Sart page content here
   return (
@@ -33,10 +38,7 @@ export type SessionInfo = {
   name: string
 }
 
-let s1 : SessionInfo = {id: "1", name:   "Session1"}
-let s2 : SessionInfo = {id: "2", name:   "Session2"}
-let s3 : SessionInfo = {id: "3", name:   "Session3"}
-let s4 : SessionInfo = {id: "4", name:   "Session4"}
+
 
 
 
