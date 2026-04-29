@@ -6,7 +6,7 @@ import {
   readFileSync,
   writeFileSync,
 } from "node:fs";
-import { Session, SessionInfo } from "./session";
+import { defaultSession, Session, SessionInfo } from "../state/session";
 
 export function saveSessionAsset(
   userId: string,
@@ -43,23 +43,28 @@ export function loadSessionData(userId: string, sessionId: string): Session {
 }
 
 export function loadRawSessionData(userId: string, sessionId: string): string {
-  return readFileSync(getSessionDataPath(getSessionPath(userId, sessionId)), {
-    encoding: "utf8",
-  });
+  let json = readFileSync(
+    getSessionDataPath(getSessionPath(userId, sessionId)),
+    {
+      encoding: "utf8",
+    },
+  );
+
+  if (!json.length) {
+    json = JSON.stringify(defaultSession(sessionId));
+  }
+
+  return json;
 }
 
-export function saveSessionData(
-  userId: string,
-  sessionId: string,
-  session: Session,
-): void {
+export function saveSessionData(userId: string, session: Session): void {
   // This is not great, as a database should be used, but this works for the demo
   // TODO: Make async
-  const sessionPath = getSessionPath(userId, sessionId);
+  const sessionPath = getSessionPath(userId, session.id);
 
   ensureDir(sessionPath);
 
-  writeFileSync(sessionPath, JSON.stringify(session));
+  writeFileSync(getSessionDataPath(sessionPath), JSON.stringify(session));
 }
 
 function ensureDir(path: string): void {

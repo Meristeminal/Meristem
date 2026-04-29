@@ -1,48 +1,36 @@
-"use client";
-
 import React from "react";
 import GridHeader from "./GridHeader";
-import { spacingCalc } from "@/lib/css";
-
-/*
-  GridBoard Component
-  - if you import like this <GridBoard /> it will create a 12x10 grid with default cell size of 40px (w-10 h-10)
-  - you can customize rows, cols, cell size and click behavior via props:
-    <GridBoard
-      rowsCount={15}
-      colsCount={12}
-      cellSize="w-12 h-12"
-      onCellClick={(coord) => console.log("Clicked cell:", coord)}
-    />
-
-  This makes it moduler and reusable for different grid sizes and interactions across the app.
-
-*/
+import { spacingCalc } from "@/lib/client/css";
+import GridCell from "./GridCell";
+import { GridCoordinate, GridHeaderInfo } from "@/lib/state/grid";
+import { getAssetUri } from "@/lib/client/api";
+import { ItemProps } from "../item/Item";
+import { Item, ItemInfo } from "@/lib/state/item";
 
 interface GridBoardProps {
   rowsCount?: number;
   colsCount?: number;
   cellInfo?: { height: number; width: number };
-  onCellClick?: ([row, col]: [number, number]) => void;
+  onCellClick?: ([row, col]: GridCoordinate) => void;
+  fetchItem?: ([row, col]: GridCoordinate) => ItemInfo | undefined;
 }
-
-type HeaderInfo = [number, string];
 
 const GridBoard: React.FC<GridBoardProps> = ({
   rowsCount = 12,
   colsCount = 10,
   cellInfo = { height: 10, width: 10 },
   onCellClick,
+  fetchItem,
 }) => {
   // Generate row labels (A, B, C...) based on rowsCount
-  const rows: HeaderInfo[] = Array.from({ length: rowsCount }, (_, i) => {
+  const rows: GridHeaderInfo[] = Array.from({ length: rowsCount }, (_, i) => {
     let s = String.fromCharCode(65 + i);
     let id = i;
     return [id, s];
   });
 
   // Generate column labels (1, 2, 3...) based on colsCount
-  const cols: HeaderInfo[] = Array.from({ length: colsCount }, (_, i) => {
+  const cols: GridHeaderInfo[] = Array.from({ length: colsCount }, (_, i) => {
     let id = i;
     let s = (i + 1).toString();
     return [id, s];
@@ -87,21 +75,20 @@ const GridBoard: React.FC<GridBoardProps> = ({
         >
           {rows.map((row) =>
             cols.map((col) => {
-              const coord = row[1] + col[1];
+              const label = row[1] + col[1];
               return (
-                <div
-                  key={coord}
-                  style={{
-                    // Tailwind does not support dynamic class generation
-                    height: spacingCalc(cellHeight),
-                    width: spacingCalc(cellWidth),
-                  }}
-                  className={`border border-black hover:bg-gray-400 cursor-pointer transition-colors`}
-                  onClick={() =>
-                    onCellClick ? onCellClick?.([row[0], col[0]]) : void 0}
+                <GridCell
+                  key={label}
+                  label={label}
+                  height={cellHeight}
+                  width={cellWidth}
+                  rowInfo={row}
+                  colInfo={col}
+                  onClick={onCellClick}
+                  fetchItem={fetchItem}
                 />
               );
-            })
+            }),
           )}
         </div>
       </div>

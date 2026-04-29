@@ -1,4 +1,4 @@
-import { spacingCalc } from "@/lib/css";
+import { spacingCalc } from "@/lib/client/css";
 
 export interface GridHeaderProps {
   height: number;

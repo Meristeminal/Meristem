@@ -1,106 +1,41 @@
-"use client";
-// import grid from components
-import {
-  DiceState,
-  GridState,
-  Session,
-  SessionCatolog,
-  ToolBarTab,
-} from "@/lib/session";
-import GridBoard from "../../Components/grid/GridBoard";
-// import toolbar from components
-import ToolBar from "../../Components/ToolBar";
-import { DiceRollerProps } from "@/Components/DiceRoller";
-import { useEffect, useState } from "react";
+"use server";
+import { getSession, postSession } from "@/lib/client/api";
+import SessionClient from "@/Components/SessionClient";
+import { usePathname } from "next/navigation";
+import { sanitizePath } from "@/lib/server/sanitization";
+import { AppRoute } from "next/dist/build/swc/types";
+import { use } from "react";
+import { AppRoutes } from "../../../.next/dev/types/routes";
 
-export default function SessionPage() {
-  // New Map page content here
+// The reason for the demo info is easy, instead of throwing an error
+// it puts the user into a demo session.
+// NOTE: This should be changed, but this works well for testing
+const DEMO_USER = "demo_user";
+const DEMO_SESSION = "demo_session";
 
-  // from A to L
-  const rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
+export default async function SessionPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{
+    session_id?: string;
+    user_id?: string;
+  }>;
+  searchParams: Promise<string>;
+}) {
+  // const x = await searchParams;
 
-  // to ten
-  const cols = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  //const pathName = String(x).split("?")[0];
+  const pathName = "http://localhost:3000";
 
-  let sessionId = "test_session";
+  // TODO: Handle errors with an error page
 
-  const defaultSession = () =>
-    new Session(
-      sessionId,
-      new DiceState(),
-      new GridState([12, 10], []),
-      new SessionCatolog(),
-      ToolBarTab.NPCs,
-    );
+  const userId = sanitizePath(params.user_id ?? DEMO_USER);
 
-  const [session, setSession]: [Session, any] = useState(() => {
-    if (typeof window === "undefined") {
-      return defaultSession();
-    }
+  const sessionId = sanitizePath(params.session_id ?? DEMO_SESSION);
 
-    const json = window.localStorage.getItem(`meristem:session:${sessionId}`);
+  let session = await getSession(pathName, userId, sessionId);
 
-    if (json === null) {
-      const ses = defaultSession();
-      // TODO: Check if this is even necessary
-      window.localStorage.setItem(
-        `meristem:session:${ses.id}`,
-        JSON.stringify(ses),
-      );
-      return ses;
-    }
-
-    // TODO: Handle parse error here
-    return JSON.parse(json);
-  });
-
-  useEffect(() => {
-    const json = JSON.stringify(session);
-    window.localStorage.setItem(`meristem:session:${session.id}`, json);
-  }, [session, setSession]);
-
-  function updateSession(session: Session) {
-    const json = JSON.stringify(session);
-    window.localStorage.setItem(`meristem:session:${session.id}`, json);
-    setSession(session);
-  }
-
-  const { dice } = session;
-
-  const diceProps: DiceRollerProps = {
-    diceGroups: dice.groups,
-    diceResults: dice.results,
-    onGroupUpdate(dg) {
-      session.dice.groups = dg;
-      updateSession(session);
-    },
-    onResultsUpdate(dgr) {
-      session.dice.results = dgr;
-      updateSession(session);
-    },
-  };
-
-  return (
-    <main className="flex flex-col items-center h-screen w-screen bg-[#8A7863]">
-      <GridBoard
-        cellInfo={{ height: 10, width: 10 }}
-        rowsCount={session.grid.gridSize[0]}
-        colsCount={session.grid.gridSize[1]}
-        onCellClick={([row, col]) => {}}
-      />
-      <ToolBar
-        dice={diceProps}
-        diceWindowValue={dice.diceWindowIsOpen}
-        tab={session.toolbarTabSelected}
-        onSetDiceOpen={(isOpen) => {
-          dice.diceWindowIsOpen = isOpen;
-          updateSession(session);
-        }}
-        onSetActiveTab={(tab) => {
-          session.toolbarTabSelected = tab;
-          updateSession(session);
-        }}
-      />
-    </main>
-  );
+  // gotta love dep injection
+  return <SessionClient session={JSON.stringify(session)} userId={userId} />;
 }

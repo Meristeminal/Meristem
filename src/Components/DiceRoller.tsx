@@ -1,6 +1,6 @@
 "use client";
 
-import { DiceGroup, DiceGroupResult } from "@/lib/dice";
+import { DiceGroup, DiceGroupResult } from "@/lib/state/dice";
 import React, { useEffect, useState } from "react";
 
 /* Die Sides added 2 for coin flip and 100 for percentage */

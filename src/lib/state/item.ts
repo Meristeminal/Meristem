@@ -1,7 +1,6 @@
-import { GridPosition } from "./grid";
-import { ToJSON } from "./save";
+import { GridCoordinate } from "./grid";
 
-export interface Item extends ToJSON {
+export interface Item {
   /**
    * The name of the item
    */
@@ -13,17 +12,32 @@ export interface Item extends ToJSON {
   icon: URL;
 
   /**
+   * The item identifier
+   **/
+  id(): string;
+
+  /**
    * The type of item
    * NOTE: This is used for (de)serialization reasons
    **/
   readonly type: ItemType;
 }
 
+export type ItemInfo = {
+  name: Item["name"];
+  icon: Item["icon"];
+  id: ReturnType<Item["id"]>;
+};
+
 export interface GridItem extends Item {
   /**
    * The size of the item on the grid
    */
-  size: GridPosition;
+  size: GridCoordinate;
+}
+
+function id(this: Item): string {
+  return this.name.replaceAll(" ", "").toLowerCase();
 }
 
 export function parseItem<T extends Item>(json: Record<string, unknown>): T {
@@ -66,7 +80,7 @@ export class PlayerItem implements Item {
   constructor(
     public name: string,
     public icon: URL,
-    public size: GridPosition,
+    public size: GridCoordinate,
     // TODO: Implement health handing #16
     public health: number,
   ) {}
@@ -79,9 +93,13 @@ export class PlayerItem implements Item {
     return new PlayerItem(
       json["name"] as string,
       new URL(json["icon"] as string),
-      json["size"] as GridPosition,
+      json["size"] as GridCoordinate,
       json["health"] as number,
     );
+  }
+
+  id(): string {
+    return id.apply(this);
   }
 }
 
@@ -90,7 +108,7 @@ export class NpcItem implements Item {
   constructor(
     public name: string,
     public icon: URL,
-    public size: GridPosition,
+    public size: GridCoordinate,
     // TODO: Implement health handing #16
     public health: number,
   ) {}
@@ -103,9 +121,12 @@ export class NpcItem implements Item {
     return new NpcItem(
       json["name"] as string,
       new URL(json["icon"] as string),
-      json["size"] as GridPosition,
+      json["size"] as GridCoordinate,
       json["health"] as number,
     );
+  }
+  id(): string {
+    return id.apply(this);
   }
 }
 
@@ -117,19 +138,23 @@ export class ObjectItem implements Item {
   constructor(
     public name: string,
     public icon: URL,
-    public size: GridPosition,
+    public size: GridCoordinate,
   ) {}
 
   static fromJSON(json: Record<string, unknown>): ObjectItem {
     return new ObjectItem(
       json["name"] as string,
       new URL(json["icon"] as string),
-      json["size"] as GridPosition,
+      json["size"] as GridCoordinate,
     );
   }
 
   toJSON(): object {
     return this;
+  }
+
+  id(): string {
+    return id.apply(this);
   }
 }
 
@@ -158,5 +183,9 @@ export class MusicItem implements Item {
 
   toJSON(): object {
     return this;
+  }
+
+  id(): string {
+    return id.apply(this);
   }
 }

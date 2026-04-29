@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import DiceRoller, { DiceRollerProps } from "./DiceRoller";
-import { ToolBarTab } from "@/lib/session";
+import { ToolBarTab } from "@/lib/state/session";
 
 export interface ToolBarProps {
   // Idk if this is good practice

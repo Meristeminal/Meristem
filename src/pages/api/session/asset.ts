@@ -62,8 +62,9 @@ export default async function handler(
         mime.getType(assetName) || "application/octet-stream",
       );
 
-      res.end(data);
+      res.send(data);
 
+      res.end();
       break;
     }
     case "POST": {

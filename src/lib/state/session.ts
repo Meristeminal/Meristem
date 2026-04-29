@@ -1,14 +1,18 @@
 import { DiceGroup, DiceGroupResult } from "./dice";
+import { GridCoordinate } from "./grid";
 import {
   Item,
   ItemType,
   MusicItem,
   NpcItem,
   ObjectItem,
+  parseItem,
   PlayerItem,
 } from "./item";
 
-/** Represents the state of the die **/
+/**
+ * Represents the state of the die
+ **/
 export class DiceState {
   static get GROUP_DEFAULT(): DiceGroup[] {
     return [];
@@ -38,7 +42,9 @@ export class DiceState {
   }
 }
 
-/** Represents the state of the grid **/
+/**
+ * Represents the state of the grid
+ **/
 export class GridState {
   static get GRID_SIZE_DEFAULT(): [number, number] {
     return [12, 10];
@@ -53,10 +59,32 @@ export class GridState {
   ) {}
 
   static fromJSON(json: Record<string, unknown>): GridState {
+    const {
+      gridSize,
+      grid,
+    }: {
+      gridSize?: GridState["gridSize"];
+      grid?: Record<string, unknown>[][];
+      [key: string]: unknown;
+    } = json;
+
     return new GridState(
-      (json["gridSize"] as [number, number]) ?? GridState.GRID_SIZE_DEFAULT,
-      (json["grid"] as Item[][]) ?? GridState.GRID_DEFAULT,
+      gridSize ?? GridState.GRID_SIZE_DEFAULT,
+      grid?.length
+        ? grid.map((row) => row.map((col) => parseItem(col)))
+        : GridState.GRID_DEFAULT,
     );
+  }
+
+  getItem([row, col]: GridCoordinate): Item | undefined {
+    return this.grid[row]?.[col];
+  }
+
+  setItem([row, col]: GridCoordinate, item: Item): Item | undefined {
+    if (this.grid[row] === undefined) {
+      this.grid[row] = [];
+    }
+    return (this.grid[row][col] = item);
   }
 }
 
@@ -102,7 +130,11 @@ export type SessionId = Lowercase<string>;
 
 /** Represents the state of a Meristem Session **/
 export class Session {
-  public id: SessionId;
+  #id: SessionId;
+
+  get id(): SessionId {
+    return this.#id;
+  }
 
   static get DEFAULT_TOOL_BAR_TAB(): ToolBarTab {
     return ToolBarTab.NPCs;
@@ -115,7 +147,7 @@ export class Session {
     public items: SessionCatolog = new SessionCatolog(),
     public toolbarTabSelected: ToolBarTab = Session.DEFAULT_TOOL_BAR_TAB,
   ) {
-    this.id = name.replaceAll(" ", "_").toLowerCase() as SessionId;
+    this.#id = name.replaceAll(" ", "_").toLowerCase() as SessionId;
   }
 
   static fromJSON(json: Record<string, unknown>): Session {
@@ -155,4 +187,28 @@ export enum ToolBarTab {
   Music = "Music",
   Images = "Images",
   More = "More",
+}
+
+export function defaultSession(sessionId: string) {
+  return new Session(
+    sessionId,
+    new DiceState(),
+    new GridState(
+      [12, 10],
+      [
+        [
+          new PlayerItem(
+            "Bill",
+            new URL(
+              "https://upload.wikimedia.org/wikipedia/commons/8/85/Smiley.svg",
+            ),
+            [1, 1],
+            10,
+          ),
+        ],
+      ],
+    ),
+    new SessionCatolog(),
+    ToolBarTab.NPCs,
+  );
 }

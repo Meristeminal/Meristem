@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export default function LoadMap() {
-  // Sart page content here
+  // Start page content here
   return (
     <main
       className="flex flex-col items-center h-screen w-screen"

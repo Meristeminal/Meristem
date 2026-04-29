@@ -1,9 +1,7 @@
-import { sanitizePath } from "@/lib/sanitization";
-import { listSession, loadSessionAsset, saveSessionAsset } from "@/lib/storage";
+import { sanitizePath } from "@/lib/server/sanitization";
+import { listSession } from "@/lib/server/storage";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { existsSync, mkdirSync, writeFile, writeFileSync } from "node:fs";
-import mime from "mime";
-import { SessionInfo } from "@/lib/session";
+import { SessionInfo } from "@/lib/state/session";
 
 type ResponseData = SessionInfo[];
 
@@ -33,8 +31,8 @@ export default async function handler(
 
       res.setHeader("Content-Type", "application/json");
 
-      res.end(data);
-
+      res.send(data);
+      res.end();
       break;
     }
   }

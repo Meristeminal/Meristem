@@ -1,4 +1,4 @@
-import { Session, SessionInfo } from "./session";
+import { Session, SessionInfo } from "../state/session";
 
 export async function getAsset(
   baseUri: string,
@@ -6,10 +6,9 @@ export async function getAsset(
   sessionId: string,
   assetName: string,
 ): Promise<Blob> {
-  let res = await fetch(
-    `${baseUri}/api/session/asset?user_id=${userId}&session_id=${sessionId}&asset=${assetName}`,
-    { method: "GET" },
-  );
+  let res = await fetch(getAssetUri(baseUri, userId, sessionId, assetName), {
+    method: "GET",
+  });
 
   return res.blob();
 }
@@ -21,10 +20,19 @@ export async function postAsset(
   assetName: string,
   asset: any,
 ): Promise<void> {
-  await fetch(
-    `${baseUri}/api/session/asset?user_id=${userId}&session_id=${sessionId}&asset=${assetName}`,
-    { method: "POST", body: asset },
-  );
+  await fetch(getAssetUri(baseUri, userId, sessionId, assetName), {
+    method: "POST",
+    body: asset,
+  });
+}
+
+export function getAssetUri(
+  baseUri: string,
+  userId: string,
+  sessionId: string,
+  assetName: string,
+): string {
+  return `${baseUri}/api/session/asset?user_id=${userId}&session_id=${sessionId}&asset=${assetName}`;
 }
 
 export async function getSession(
@@ -36,6 +44,8 @@ export async function getSession(
     `${baseUri}/api/session?user_id=${userId}&session_id=${sessionId}`,
     { method: "GET" },
   );
+
+  console.log(res.url);
 
   const json = await res.json();
 
@@ -56,11 +66,10 @@ export async function postSession(
 export async function listSessions(
   baseUri: string,
   userId: string,
-): SessionInfo[] {
-  let res = await fetch(
-    `${baseUri}/api/session/asset?user_id=${userId}&session_id=${session.id}`,
-    { method: "POST", body: JSON.stringify(session) },
-  );
+): Promise<SessionInfo[]> {
+  let res = await fetch(`${baseUri}/api/session/list?user_id=${userId}`, {
+    method: "GET",
+  });
 
-  return;
+  return (await res.json()) as SessionInfo[];
 }

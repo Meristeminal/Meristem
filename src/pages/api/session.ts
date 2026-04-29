@@ -1,13 +1,14 @@
-import { sanitizePath } from "@/lib/sanitization";
 import {
   loadRawSessionData,
   loadSessionData,
   saveSessionData,
-} from "@/lib/storage";
+} from "@/lib/server/storage";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { existsSync, mkdirSync, writeFile, writeFileSync } from "node:fs";
 import mime from "mime";
 import { JSONValue } from "next/dist/server/config-shared";
+import { sanitizePath } from "@/lib/server/sanitization";
+import { defaultSession } from "@/lib/state/session";
 
 type ResponseData = JSONValue;
 
@@ -52,15 +53,28 @@ export default async function handler(
   res.statusCode = 200;
   switch (req.method) {
     case "GET": {
-      const data = loadRawSessionData(userId, sessionId);
+      let data = undefined;
+
+      try {
+        data = loadRawSessionData(userId, sessionId);
+      } catch (e) {
+        if (!data) {
+          data = JSON.stringify(defaultSession(sessionId));
+        }
+
+        // res.statusCode = 500;
+        // res.statusMessage = `${e}`;
+        // res.end();
+      }
+
       res.setHeader("Content-Type", "application/json");
       res.end(data);
-
+      res.end();
       break;
     }
     case "POST": {
       try {
-        saveSessionData(userId, sessionId, req.body);
+        saveSessionData(userId, req.body);
       } catch (e) {
         res.statusCode = 500;
         res.statusMessage = `${e}`;
